@@ -1,9 +1,16 @@
 class MoviesController < ApplicationController
     def index
-      @movies = Movie.all
+      sort_column = params[:sort] || 'title'
+      sort_direction = params[:direction] || 'asc'
+  
+      @movies = Movie.order("#{sort_column} #{sort_direction}")
+      @sort_column = sort_column
+      @sort_direction = sort_direction
+  
       respond_to do |format|
-      format.html  # Ensures the server responds to HTML requests
-      format.json { render json: @movies }
+        format.html  
+        format.json { render json: @movies }
+      end
     end
-end
+  end
   
